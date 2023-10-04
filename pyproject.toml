@@ -25,3 +25,21 @@ mypy = "^1.5.1"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+
+[tool.black]
+# https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#command-line-options
+line-length = 120
+
+[tool.flake8]
+# https://wemake-python-styleguide.readthedocs.io/en/latest/pages/usage/violations/index.html
+max-line-length = 120
+show-violation-links = true
+
+[tool.isort]
+# https://pycqa.github.io/isort/docs/configuration/options.html
+line_length = 120
+profile = "black"
+
+[tool.mypy]
+# https://mypy.readthedocs.io/en/stable/config_file.html
+strict = true
