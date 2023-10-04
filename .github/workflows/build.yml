@@ -7,6 +7,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -47,7 +50,7 @@ jobs:
 
       - name: Generate themes
         run: |
-          poetry shell
+          . $(poetry env info --path)/bin/activate
           python3 src/main.py
 
       - name: Release
