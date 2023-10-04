@@ -17,5 +17,11 @@ black = "^23.9.1"
 flake8-pyproject = "^1.2.3"
 wemake-python-styleguide = "^0.18.0"
 
+[tool.poetry.group.typing]
+optional = true
+
+[tool.poetry.group.typing.dependencies]
+mypy = "^1.5.1"
+
 [tool.poetry.dependencies]
 python = "^3.11"
