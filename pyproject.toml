@@ -9,5 +9,13 @@ readme = "README.md"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.poetry.group.format]
+optional = true
+
+[tool.poetry.group.format.dependencies]
+black = "^23.9.1"
+flake8-pyproject = "^1.2.3"
+wemake-python-styleguide = "^0.18.0"
+
 [tool.poetry.dependencies]
 python = "^3.11"
