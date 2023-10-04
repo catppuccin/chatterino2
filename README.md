@@ -48,12 +48,12 @@
 
 ## Usage
 
-1. Copy files into [themesDirectory](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41)
+1. Copy the files into your [themesDirectory](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41)
 
-2. Apply changes to [settingsDirectory/settings.json](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L20)
+2. Apply changes to your [settingsDirectory/settings.json](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L20)
 
     <details>
-    <summary>2.1. Update active theme</summary>
+    <summary>2.1. Update the active theme:</summary>
 
     ```json
     {
@@ -68,7 +68,10 @@
     </details>
 
     <details>
-    <summary>2.2. [Optional] Set "most recent message line" color to preferred accent</summary>
+    <summary>
+      2.2. [Optional] Set the "most recent message line" value to your preferred
+      <a href="https://github.com/catppuccin/catppuccin?tab=readme-ov-file#-palette">accent</a> color:
+    </summary>
 
     ```json
     {
