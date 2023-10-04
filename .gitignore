@@ -1,2 +1,7 @@
 .idea
 .vscode
+
+.mypy_cache
+.venv
+
+dist

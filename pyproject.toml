@@ -35,7 +35,22 @@ line-length = 120
 
 [tool.flake8]
 # https://wemake-python-styleguide.readthedocs.io/en/latest/pages/usage/violations/index.html
+ignore = [
+  "D100",   # D100 Missing docstring in public module
+  "D101",   # D101 Missing docstring in public class
+  "D103",   # D103 Missing docstring in public function
+  "WPS210", # WPS210 Found too many local variables
+  "WPS237", # WPS237 Found a too complex `f` string
+  "WPS305", # WPS305 Found `f` string
+]
+inline-quotes = "double"
 max-line-length = 120
+per-file-ignores = [
+  # S310 Audit url open for permitted schemes.
+  # WPS226 Found string literal over-use
+  # WPS339 Found number with meaningless zeros
+  "src/main.py:S310,WPS226,WPS339",
+]
 show-violation-links = true
 
 [tool.isort]
