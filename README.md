@@ -59,6 +59,9 @@
     wget "https://github.com/fruzitent/chatterino2/releases/latest/download/theme-accent.tar.gz" | tar --extract --file - --gzip
     ```
 
+> [!WARNING]
+> Be cautious as this action could potentially replace your existing settings.
+
 ## 💝 Thanks to
 
 - [fruzitent](https://github.com/fruzitent)
