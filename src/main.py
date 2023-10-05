@@ -10,7 +10,7 @@ from catppuccin import Colour, Flavour  # type: ignore
 from jsonschema import validate
 
 icon_theme_t: TypeAlias = Literal["dark", "light"]
-json_t: TypeAlias = dict[str, "json_t"] | str
+json_t: TypeAlias = bool | dict[str, "json_t"] | str
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -65,6 +65,15 @@ def main() -> None:
 
             archive_path: Path = dist_dir.joinpath(f"{target}.tar.gz")
             with tarfile.open(archive_path, "w:gz") as archive:
+                # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L20
+                settings_path: tarfile.TarInfo = tarfile.TarInfo("Settings/settings.json")
+                settings: json_t = generate_settings(
+                    flavour=flavour.flavour,
+                    accent=accent.colour,
+                    target=target,
+                )
+                write_json_to_tar(archive=archive, path=settings_path, tree=settings)
+
                 # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41
                 theme_path: tarfile.TarInfo = tarfile.TarInfo(f"Themes/{target}.json")
                 theme: json_t = generate_theme(
@@ -89,6 +98,41 @@ def write_json_to_tar(archive: tarfile.TarFile, path: tarfile.TarInfo, tree: jso
     tree_data: bytes = json.dumps(tree, indent=2, sort_keys=True).encode()
     path.size = len(tree_data)
     archive.addfile(path, io.BytesIO(tree_data))
+
+
+def generate_settings(flavour: Flavour, accent: Colour, target: str) -> json_t:
+    opacity_first_messagee: int = 0x3C
+    opacity_hype_chat: int = 0x3C
+    opacity_mention: int = 0x7F
+    opacity_redeem_highlight: int = 0x3C
+    opacity_self: int = 0xFF
+    opacity_subscription: int = 0x64
+    opacity_tread_reply: int = 0x3C
+
+    return {
+        "appearance": {
+            "messages": {
+                "lastMessageColor": f"#{accent.hex}",
+                "showLastMessageIndicator": True,
+            },
+            "theme": {
+                "name": f"{target}.json",
+            },
+        },
+        "highlighting": {
+            "elevatedMessageHighlight": {
+                "color": f"#{opacity_hype_chat:02x}{flavour.yellow.hex}",
+            },
+            "firstMessageHighlightColor": f"#{opacity_first_messagee:02x}{flavour.green.hex}",
+            "redeemedHighlightColor": f"#{opacity_redeem_highlight:02x}{flavour.teal.hex}",
+            "selfHighlightColor": f"#{opacity_mention:02x}{flavour.flamingo.hex}",
+            "selfMessageHighlight": {
+                "color": f"#{opacity_self:02x}{accent.hex}",
+            },
+            "subHighlightColor": f"#{opacity_subscription:02x}{flavour.mauve.hex}",
+            "threadHighlightColor": f"#{opacity_tread_reply:02x}{flavour.red.hex}",
+        },
+    }
 
 
 def generate_theme(flavour: Flavour, accent: Colour, icon_theme: icon_theme_t) -> json_t:
