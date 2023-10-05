@@ -168,7 +168,7 @@ def generate_theme(flavour: Flavour, accent: Colour, icon_theme: icon_theme_t) -
                 "newMessage": {
                     "backgrounds": tabs_generic,
                     "line": tabs_generic,
-                    "text": f"#{flavour.subtext1.hex}",
+                    "text": f"#{flavour.text.hex}",
                 },
                 "regular": {
                     "backgrounds": tabs_generic,
