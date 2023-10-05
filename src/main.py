@@ -1,4 +1,6 @@
+import io
 import json
+import tarfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal, TypeAlias
@@ -8,12 +10,12 @@ from catppuccin import Colour, Flavour  # type: ignore
 from jsonschema import validate
 
 icon_theme_t: TypeAlias = Literal["dark", "light"]
-json_t: TypeAlias = dict[str, "json_t"] | str
+json_t: TypeAlias = bool | dict[str, "json_t"] | str
 
 
 @dataclass(frozen=True, kw_only=True)
 class NamedColour(object):
-    accent: Colour
+    colour: Colour
     name: str
 
 
@@ -24,11 +26,11 @@ class NamedFlavour(object):
     name: str
 
 
-SCHEMA_URL: str = "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/ChatterinoTheme.schema.json"
+THEME_URL: str = "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/ChatterinoTheme.schema.json"
 
 
 def main() -> None:
-    schema: str = retrieve_via_http(SCHEMA_URL)
+    theme_schema: str = retrieve_via_http(THEME_URL)
 
     flavours: list[NamedFlavour] = [
         NamedFlavour(flavour=Flavour.frappe(), icon_theme="light", name="frappe"),
@@ -37,37 +39,50 @@ def main() -> None:
         NamedFlavour(flavour=Flavour.mocha(), icon_theme="light", name="mocha"),
     ]
 
-    for named_flavour in flavours:
+    for flavour in flavours:
         accents: list[NamedColour] = [
-            NamedColour(accent=named_flavour.flavour.rosewater, name="rosewater"),
-            NamedColour(accent=named_flavour.flavour.flamingo, name="flamingo"),
-            NamedColour(accent=named_flavour.flavour.pink, name="pink"),
-            NamedColour(accent=named_flavour.flavour.mauve, name="mauve"),
-            NamedColour(accent=named_flavour.flavour.red, name="red"),
-            NamedColour(accent=named_flavour.flavour.maroon, name="maroon"),
-            NamedColour(accent=named_flavour.flavour.peach, name="peach"),
-            NamedColour(accent=named_flavour.flavour.yellow, name="yellow"),
-            NamedColour(accent=named_flavour.flavour.green, name="green"),
-            NamedColour(accent=named_flavour.flavour.teal, name="teal"),
-            NamedColour(accent=named_flavour.flavour.sky, name="sky"),
-            NamedColour(accent=named_flavour.flavour.sapphire, name="sapphire"),
-            NamedColour(accent=named_flavour.flavour.blue, name="blue"),
-            NamedColour(accent=named_flavour.flavour.lavender, name="lavender"),
+            NamedColour(colour=flavour.flavour.blue, name="blue"),
+            NamedColour(colour=flavour.flavour.flamingo, name="flamingo"),
+            NamedColour(colour=flavour.flavour.green, name="green"),
+            NamedColour(colour=flavour.flavour.lavender, name="lavender"),
+            NamedColour(colour=flavour.flavour.maroon, name="maroon"),
+            NamedColour(colour=flavour.flavour.mauve, name="mauve"),
+            NamedColour(colour=flavour.flavour.peach, name="peach"),
+            NamedColour(colour=flavour.flavour.pink, name="pink"),
+            NamedColour(colour=flavour.flavour.red, name="red"),
+            NamedColour(colour=flavour.flavour.rosewater, name="rosewater"),
+            NamedColour(colour=flavour.flavour.sapphire, name="sapphire"),
+            NamedColour(colour=flavour.flavour.sky, name="sky"),
+            NamedColour(colour=flavour.flavour.teal, name="teal"),
+            NamedColour(colour=flavour.flavour.yellow, name="yellow"),
         ]
 
-        for named_accent in accents:
-            path: Path = Path(f"dist/{named_flavour.name}-{named_accent.name}.json")
+        for accent in accents:
+            target: str = f"{flavour.name}-{accent.name}"
 
-            theme: json_t = generate_theme(
-                named_flavour.flavour,
-                named_accent.accent,
-                named_flavour.icon_theme,
-            )
+            dist_dir: Path = Path("dist")
+            dist_dir.mkdir(parents=True, exist_ok=True)
 
-            validate(instance=theme, schema=json.loads(schema))
+            archive_path: Path = dist_dir.joinpath(f"{target}.tar.gz")
+            with tarfile.open(archive_path, "w:gz") as archive:
+                # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L20
+                settings_path: tarfile.TarInfo = tarfile.TarInfo("Settings/settings.json")
+                settings: json_t = generate_settings(
+                    flavour=flavour.flavour,
+                    accent=accent.colour,
+                    target=target,
+                )
+                write_json_to_tar(archive=archive, path=settings_path, tree=settings)
 
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(theme, indent=2, sort_keys=True))
+                # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41
+                theme_path: tarfile.TarInfo = tarfile.TarInfo(f"Themes/{target}.json")
+                theme: json_t = generate_theme(
+                    flavour=flavour.flavour,
+                    accent=accent.colour,
+                    icon_theme=flavour.icon_theme,
+                )
+                validate(instance=theme, schema=json.loads(theme_schema))
+                write_json_to_tar(archive=archive, path=theme_path, tree=theme)
 
 
 def retrieve_via_http(url: str) -> str:
@@ -79,11 +94,48 @@ def retrieve_via_http(url: str) -> str:
         return response.read()
 
 
-def generate_theme(
-    flavour: Flavour,
-    accent: Colour,
-    icon_theme: icon_theme_t,
-) -> json_t:
+def write_json_to_tar(archive: tarfile.TarFile, path: tarfile.TarInfo, tree: json_t) -> None:
+    tree_data: bytes = json.dumps(tree, indent=2, sort_keys=True).encode()
+    path.size = len(tree_data)
+    archive.addfile(path, io.BytesIO(tree_data))
+
+
+def generate_settings(flavour: Flavour, accent: Colour, target: str) -> json_t:
+    opacity_first_messagee: int = 0x3C
+    opacity_hype_chat: int = 0x3C
+    opacity_mention: int = 0x7F
+    opacity_redeem_highlight: int = 0x3C
+    opacity_self: int = 0xFF
+    opacity_subscription: int = 0x64
+    opacity_tread_reply: int = 0x3C
+
+    return {
+        "appearance": {
+            "messages": {
+                "lastMessageColor": f"#{accent.hex}",
+                "showLastMessageIndicator": True,
+            },
+            "theme": {
+                "name": f"{target}.json",
+            },
+        },
+        "highlighting": {
+            "elevatedMessageHighlight": {
+                "color": f"#{opacity_hype_chat:02x}{flavour.yellow.hex}",
+            },
+            "firstMessageHighlightColor": f"#{opacity_first_messagee:02x}{flavour.green.hex}",
+            "redeemedHighlightColor": f"#{opacity_redeem_highlight:02x}{flavour.teal.hex}",
+            "selfHighlightColor": f"#{opacity_mention:02x}{flavour.flamingo.hex}",
+            "selfMessageHighlight": {
+                "color": f"#{opacity_self:02x}{accent.hex}",
+            },
+            "subHighlightColor": f"#{opacity_subscription:02x}{flavour.mauve.hex}",
+            "threadHighlightColor": f"#{opacity_tread_reply:02x}{flavour.red.hex}",
+        },
+    }
+
+
+def generate_theme(flavour: Flavour, accent: Colour, icon_theme: icon_theme_t) -> json_t:
     opacity_drop_preview: int = 0x30
     opacity_drop_target: int = 0x00
     opacity_highlight_end: int = 0x00
@@ -99,7 +151,7 @@ def generate_theme(
     }
 
     return {
-        "$schema": SCHEMA_URL,
+        "$schema": THEME_URL,
         "colors": {
             "accent": f"#{accent.hex}",
             "messages": {
@@ -160,7 +212,7 @@ def generate_theme(
                 "newMessage": {
                     "backgrounds": tabs_generic,
                     "line": tabs_generic,
-                    "text": f"#{flavour.subtext1.hex}",
+                    "text": f"#{flavour.text.hex}",
                 },
                 "regular": {
                     "backgrounds": tabs_generic,

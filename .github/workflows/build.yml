@@ -56,4 +56,4 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./dist/*.json
+          files: ./dist/*.tar.gz

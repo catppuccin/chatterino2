@@ -46,45 +46,21 @@
 ![mocha](assets/mocha.webp)
 </details>
 
-## Usage
+## How to Use
 
-1. Copy the files into your [themesDirectory](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41)
+1. Navigate to the following directory based on your operating system:
 
-2. Apply changes to your [settingsDirectory/settings.json](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L20)
+    - Linux: `${XDG_DATA_HOME}/chatterino`
+    - Windows: `$env:APPDATA\Chatterino2`
 
-    <details>
-    <summary>2.1. Update the active theme:</summary>
+2. Download and extract the latest release:
 
-    ```json
-    {
-      "appearance": {
-        "theme": {
-          "name": "theme-accent.json"
-        },
-      }
-    }
+    ```shell
+    wget "https://github.com/fruzitent/chatterino2/releases/latest/download/theme-accent.tar.gz" | tar --extract --file - --gzip
     ```
 
-    </details>
-
-    <details>
-    <summary>
-      2.2. [Optional] Set the "most recent message line" value to your preferred
-      <a href="https://github.com/catppuccin/catppuccin?tab=readme-ov-file#-palette">accent</a> color:
-    </summary>
-
-    ```json
-    {
-      "appearance": {
-        "messages": {
-          "lastMessageColor": "#AARRGGBB",
-          "showLastMessageIndicator": true
-        }
-      }
-    }
-    ```
-
-    </details>
+    > [!WARNING]
+    > Be cautious as this action could potentially replace your existing settings.
 
 ## 💝 Thanks to
 
