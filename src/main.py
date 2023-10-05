@@ -13,7 +13,7 @@ json_t: TypeAlias = dict[str, "json_t"] | str
 
 @dataclass(frozen=True, kw_only=True)
 class NamedColour(object):
-    accent: Colour
+    colour: Colour
     name: str
 
 
@@ -24,11 +24,11 @@ class NamedFlavour(object):
     name: str
 
 
-SCHEMA_URL: str = "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/ChatterinoTheme.schema.json"
+THEME_URL: str = "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/ChatterinoTheme.schema.json"
 
 
 def main() -> None:
-    schema: str = retrieve_via_http(SCHEMA_URL)
+    theme_schema: str = retrieve_via_http(THEME_URL)
 
     flavours: list[NamedFlavour] = [
         NamedFlavour(flavour=Flavour.frappe(), icon_theme="light", name="frappe"),
@@ -37,34 +37,34 @@ def main() -> None:
         NamedFlavour(flavour=Flavour.mocha(), icon_theme="light", name="mocha"),
     ]
 
-    for named_flavour in flavours:
+    for flavour in flavours:
         accents: list[NamedColour] = [
-            NamedColour(accent=named_flavour.flavour.rosewater, name="rosewater"),
-            NamedColour(accent=named_flavour.flavour.flamingo, name="flamingo"),
-            NamedColour(accent=named_flavour.flavour.pink, name="pink"),
-            NamedColour(accent=named_flavour.flavour.mauve, name="mauve"),
-            NamedColour(accent=named_flavour.flavour.red, name="red"),
-            NamedColour(accent=named_flavour.flavour.maroon, name="maroon"),
-            NamedColour(accent=named_flavour.flavour.peach, name="peach"),
-            NamedColour(accent=named_flavour.flavour.yellow, name="yellow"),
-            NamedColour(accent=named_flavour.flavour.green, name="green"),
-            NamedColour(accent=named_flavour.flavour.teal, name="teal"),
-            NamedColour(accent=named_flavour.flavour.sky, name="sky"),
-            NamedColour(accent=named_flavour.flavour.sapphire, name="sapphire"),
-            NamedColour(accent=named_flavour.flavour.blue, name="blue"),
-            NamedColour(accent=named_flavour.flavour.lavender, name="lavender"),
+            NamedColour(colour=flavour.flavour.blue, name="blue"),
+            NamedColour(colour=flavour.flavour.flamingo, name="flamingo"),
+            NamedColour(colour=flavour.flavour.green, name="green"),
+            NamedColour(colour=flavour.flavour.lavender, name="lavender"),
+            NamedColour(colour=flavour.flavour.maroon, name="maroon"),
+            NamedColour(colour=flavour.flavour.mauve, name="mauve"),
+            NamedColour(colour=flavour.flavour.peach, name="peach"),
+            NamedColour(colour=flavour.flavour.pink, name="pink"),
+            NamedColour(colour=flavour.flavour.red, name="red"),
+            NamedColour(colour=flavour.flavour.rosewater, name="rosewater"),
+            NamedColour(colour=flavour.flavour.sapphire, name="sapphire"),
+            NamedColour(colour=flavour.flavour.sky, name="sky"),
+            NamedColour(colour=flavour.flavour.teal, name="teal"),
+            NamedColour(colour=flavour.flavour.yellow, name="yellow"),
         ]
 
-        for named_accent in accents:
-            path: Path = Path(f"dist/{named_flavour.name}-{named_accent.name}.json")
+        for accent in accents:
+            path: Path = Path(f"dist/{flavour.name}-{accent.name}.json")
 
             theme: json_t = generate_theme(
-                named_flavour.flavour,
-                named_accent.accent,
-                named_flavour.icon_theme,
+                flavour.flavour,
+                accent.colour,
+                flavour.icon_theme,
             )
 
-            validate(instance=theme, schema=json.loads(schema))
+            validate(instance=theme, schema=json.loads(theme_schema))
 
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(json.dumps(theme, indent=2, sort_keys=True))
@@ -99,7 +99,7 @@ def generate_theme(
     }
 
     return {
-        "$schema": SCHEMA_URL,
+        "$schema": THEME_URL,
         "colors": {
             "accent": f"#{accent.hex}",
             "messages": {
