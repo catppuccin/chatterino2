@@ -1,4 +1,6 @@
+import io
 import json
+import tarfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal, TypeAlias
@@ -56,18 +58,22 @@ def main() -> None:
         ]
 
         for accent in accents:
-            path: Path = Path(f"dist/{flavour.name}-{accent.name}.json")
+            target: str = f"{flavour.name}-{accent.name}"
 
-            theme: json_t = generate_theme(
-                flavour.flavour,
-                accent.colour,
-                flavour.icon_theme,
-            )
+            dist_dir: Path = Path("dist")
+            dist_dir.mkdir(parents=True, exist_ok=True)
 
-            validate(instance=theme, schema=json.loads(theme_schema))
-
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(theme, indent=2, sort_keys=True))
+            archive_path: Path = dist_dir.joinpath(f"{target}.tar.gz")
+            with tarfile.open(archive_path, "w:gz") as archive:
+                # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41
+                theme_path: tarfile.TarInfo = tarfile.TarInfo(f"Themes/{target}.json")
+                theme: json_t = generate_theme(
+                    flavour=flavour.flavour,
+                    accent=accent.colour,
+                    icon_theme=flavour.icon_theme,
+                )
+                validate(instance=theme, schema=json.loads(theme_schema))
+                write_json_to_tar(archive=archive, path=theme_path, tree=theme)
 
 
 def retrieve_via_http(url: str) -> str:
@@ -79,11 +85,13 @@ def retrieve_via_http(url: str) -> str:
         return response.read()
 
 
-def generate_theme(
-    flavour: Flavour,
-    accent: Colour,
-    icon_theme: icon_theme_t,
-) -> json_t:
+def write_json_to_tar(archive: tarfile.TarFile, path: tarfile.TarInfo, tree: json_t) -> None:
+    tree_data: bytes = json.dumps(tree, indent=2, sort_keys=True).encode()
+    path.size = len(tree_data)
+    archive.addfile(path, io.BytesIO(tree_data))
+
+
+def generate_theme(flavour: Flavour, accent: Colour, icon_theme: icon_theme_t) -> json_t:
     opacity_drop_preview: int = 0x30
     opacity_drop_target: int = 0x00
     opacity_highlight_end: int = 0x00
