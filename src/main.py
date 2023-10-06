@@ -1,8 +1,9 @@
 import io
 import json
-import tarfile
 from dataclasses import dataclass
 from pathlib import Path
+from tarfile import TarFile, TarInfo
+from tarfile import open as taropen
 from typing import Literal, TypeAlias
 from urllib.request import urlretrieve
 
@@ -64,9 +65,9 @@ def main() -> None:
             dist_dir.mkdir(parents=True, exist_ok=True)
 
             archive_path: Path = dist_dir.joinpath(f"{target}.tar.gz")
-            with tarfile.open(archive_path, "w:gz") as archive:
+            with taropen(archive_path, "w:gz") as archive:
                 # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L20
-                settings_path: tarfile.TarInfo = tarfile.TarInfo("Settings/settings.json")
+                settings_path: TarInfo = TarInfo("Settings/settings.json")
                 settings: json_t = generate_settings(
                     flavour=flavour.flavour,
                     accent=accent.colour,
@@ -75,7 +76,7 @@ def main() -> None:
                 write_json_to_tar(archive=archive, path=settings_path, tree=settings)
 
                 # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41
-                theme_path: tarfile.TarInfo = tarfile.TarInfo(f"Themes/{target}.json")
+                theme_path: TarInfo = TarInfo(f"Themes/{target}.json")
                 theme: json_t = generate_theme(
                     flavour=flavour.flavour,
                     accent=accent.colour,
@@ -94,7 +95,7 @@ def retrieve_via_http(url: str) -> str:
         return response.read()
 
 
-def write_json_to_tar(archive: tarfile.TarFile, path: tarfile.TarInfo, tree: json_t) -> None:
+def write_json_to_tar(archive: TarFile, path: TarInfo, tree: json_t) -> None:
     tree_data: bytes = json.dumps(tree, indent=2, sort_keys=True).encode()
     path.size = len(tree_data)
     archive.addfile(path, io.BytesIO(tree_data))
