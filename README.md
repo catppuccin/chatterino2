@@ -56,7 +56,7 @@
 2. Download and extract the latest release:
 
     ```shell
-    wget "https://github.com/fruzitent/chatterino2/releases/latest/download/theme-accent.tar.gz" | tar --extract --file - --gzip
+    wget -O - "https://github.com/fruzitent/chatterino2/releases/latest/download/theme-accent.tar.gz" | tar --extract --file - --gzip
     ```
 
     > [!WARNING]
