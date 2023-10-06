@@ -1,6 +1,6 @@
-import io
 import json
 from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path
 from tarfile import TarFile, TarInfo
 from tarfile import open as taropen
@@ -98,7 +98,7 @@ def retrieve_via_http(url: str) -> str:
 def write_json_to_tar(archive: TarFile, path: TarInfo, tree: json_t) -> None:
     tree_data: bytes = json.dumps(tree, indent=2, sort_keys=True).encode()
     path.size = len(tree_data)
-    archive.addfile(path, io.BytesIO(tree_data))
+    archive.addfile(path, BytesIO(tree_data))
 
 
 def generate_settings(flavour: Flavour, accent: Colour, target: str) -> json_t:
