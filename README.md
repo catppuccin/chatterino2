@@ -48,7 +48,7 @@
 
 ## How to Use
 
-1. Navigate to the following directory based on your operating system:
+1. Navigate to the following [directory](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L17) based on your operating system:
 
     - Linux: `$XDG_DATA_HOME/chatterino`
     - Windows: `$env:APPDATA\Chatterino2`
