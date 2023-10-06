@@ -27,11 +27,11 @@ class NamedFlavour(object):
     name: str
 
 
-THEME_URL: str = "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/ChatterinoTheme.schema.json"
+THEME_SCHEMA_URL: str = "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/ChatterinoTheme.schema.json"  # fmt: skip # noqa: E501
 
 
 def main() -> None:
-    theme_schema: str = retrieve_via_http(THEME_URL)
+    theme_schema: str = retrieve_via_http(THEME_SCHEMA_URL)
 
     flavours: list[NamedFlavour] = [
         NamedFlavour(flavour=Flavour.frappe(), icon_theme="light", name="frappe"),
@@ -152,7 +152,7 @@ def generate_theme(flavour: Flavour, accent: Colour, icon_theme: icon_theme_t) -
     }
 
     return {
-        "$schema": THEME_URL,
+        "$schema": THEME_SCHEMA_URL,
         "colors": {
             "accent": f"#{accent.hex}",
             "messages": {
