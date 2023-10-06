@@ -50,7 +50,7 @@
 
 1. Navigate to the following directory based on your operating system:
 
-    - Linux: `${XDG_DATA_HOME}/chatterino`
+    - Linux: `$XDG_DATA_HOME/chatterino`
     - Windows: `$env:APPDATA\Chatterino2`
 
 2. Download and extract the latest release:
