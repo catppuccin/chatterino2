@@ -48,19 +48,19 @@
 
 ## How to Use
 
-1. Navigate to the following directory based on your operating system:
+1. Navigate to the following [directory](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L17) based on your operating system:
 
-    - Linux: `${XDG_DATA_HOME}/chatterino`
+    - Linux: `$XDG_DATA_HOME/chatterino`
     - Windows: `$env:APPDATA\Chatterino2`
 
 2. Download and extract the latest release:
 
-    ```shell
-    wget "https://github.com/fruzitent/chatterino2/releases/latest/download/theme-accent.tar.gz" | tar --extract --file - --gzip
-    ```
-
     > [!WARNING]
     > Be cautious as this action could potentially replace your existing settings.
+
+    ```shell
+    curl --location "https://github.com/fruzitent/chatterino2/releases/latest/download/theme-accent.tar.gz" | tar --extract --file - --gzip
+    ```
 
 ## 💝 Thanks to
 
