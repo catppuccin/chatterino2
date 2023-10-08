@@ -88,7 +88,7 @@ def generate_settings(flavour: Flavour, accent: Colour, target: str) -> json_t:
             },
             "firstMessageHighlightColor": f"#{opacity_first_messagee:02x}{flavour.green.hex}",
             "redeemedHighlightColor": f"#{opacity_redeem_highlight:02x}{flavour.teal.hex}",
-            "selfHighlightColor": f"#{opacity_mention:02x}{flavour.flamingo.hex}",
+            "selfHighlightColor": f"#{opacity_mention:02x}{flavour.red.hex}",
             "selfMessageHighlight": {
                 "color": f"#{opacity_self:02x}{accent.hex}",
             },
