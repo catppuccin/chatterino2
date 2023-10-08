@@ -1,10 +1,10 @@
 import json
-from dataclasses import dataclass
+from dataclasses import fields
 from io import BytesIO
 from pathlib import Path
 from tarfile import TarFile, TarInfo
 from tarfile import open as taropen
-from typing import Literal, TypeAlias
+from typing import Literal, TypeAlias, cast
 from urllib.request import urlretrieve
 
 from catppuccin import Colour, Flavour  # type: ignore
@@ -14,52 +14,21 @@ icon_theme_t: TypeAlias = Literal["dark", "light"]
 json_t: TypeAlias = bool | dict[str, "json_t"] | str
 
 
-@dataclass(frozen=True, kw_only=True)
-class NamedColour(object):
-    colour: Colour
-    name: str
-
-
-@dataclass(frozen=True, kw_only=True)
-class NamedFlavour(object):
-    flavour: Flavour
-    icon_theme: icon_theme_t
-    name: str
-
-
 THEME_SCHEMA_URL: str = "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/ChatterinoTheme.schema.json"  # fmt: skip # noqa: E501
 
 
 def main() -> None:
     theme_schema: str = retrieve_via_http(THEME_SCHEMA_URL)
 
-    flavours: list[NamedFlavour] = [
-        NamedFlavour(flavour=Flavour.frappe(), icon_theme="light", name="frappe"),
-        NamedFlavour(flavour=Flavour.latte(), icon_theme="dark", name="latte"),
-        NamedFlavour(flavour=Flavour.macchiato(), icon_theme="light", name="macchiato"),
-        NamedFlavour(flavour=Flavour.mocha(), icon_theme="light", name="mocha"),
-    ]
+    total_neutral: int = -12
+    for flavour_name, flavour_factory in Flavour.__dict__.items():
+        if not isinstance(flavour_factory, staticmethod):
+            continue
 
-    for flavour in flavours:
-        accents: list[NamedColour] = [
-            NamedColour(colour=flavour.flavour.blue, name="blue"),
-            NamedColour(colour=flavour.flavour.flamingo, name="flamingo"),
-            NamedColour(colour=flavour.flavour.green, name="green"),
-            NamedColour(colour=flavour.flavour.lavender, name="lavender"),
-            NamedColour(colour=flavour.flavour.maroon, name="maroon"),
-            NamedColour(colour=flavour.flavour.mauve, name="mauve"),
-            NamedColour(colour=flavour.flavour.peach, name="peach"),
-            NamedColour(colour=flavour.flavour.pink, name="pink"),
-            NamedColour(colour=flavour.flavour.red, name="red"),
-            NamedColour(colour=flavour.flavour.rosewater, name="rosewater"),
-            NamedColour(colour=flavour.flavour.sapphire, name="sapphire"),
-            NamedColour(colour=flavour.flavour.sky, name="sky"),
-            NamedColour(colour=flavour.flavour.teal, name="teal"),
-            NamedColour(colour=flavour.flavour.yellow, name="yellow"),
-        ]
-
-        for accent in accents:
-            target: str = f"{flavour.name}-{accent.name}"
+        flavour: Flavour = cast(Flavour, flavour_factory())
+        for colour in fields(flavour)[:total_neutral]:
+            accent: Colour = getattr(flavour, colour.name)
+            target: str = f"{flavour_name}-{colour.name}"
 
             dist_dir: Path = Path("dist")
             dist_dir.mkdir(parents=True, exist_ok=True)
@@ -68,20 +37,13 @@ def main() -> None:
             with taropen(archive_path, "w:gz") as archive:
                 # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L20
                 settings_path: TarInfo = TarInfo("Settings/settings.json")
-                settings: json_t = generate_settings(
-                    flavour=flavour.flavour,
-                    accent=accent.colour,
-                    target=target,
-                )
+                settings: json_t = generate_settings(flavour, accent, target=target)
                 write_json_to_tar(archive=archive, path=settings_path, tree=settings)
 
+                icon_theme: icon_theme_t = "dark" if flavour_name == "latte" else "light"
                 # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41
                 theme_path: TarInfo = TarInfo(f"Themes/{target}.json")
-                theme: json_t = generate_theme(
-                    flavour=flavour.flavour,
-                    accent=accent.colour,
-                    icon_theme=flavour.icon_theme,
-                )
+                theme: json_t = generate_theme(flavour, accent, icon_theme=icon_theme)
                 validate(instance=theme, schema=json.loads(theme_schema))
                 write_json_to_tar(archive=archive, path=theme_path, tree=theme)
 
@@ -90,7 +52,7 @@ def retrieve_via_http(url: str) -> str:
     if not url.startswith(("http:", "https:")):
         raise ValueError("URL must start with 'http:' or 'https:'")
 
-    location, headers = urlretrieve(url)
+    location, _ = urlretrieve(url)
     with open(location) as response:
         return response.read()
 
