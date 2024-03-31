@@ -48,10 +48,7 @@
 
 ## How to Use
 
-1. Navigate to the following [directory](https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L17) based on your operating system:
-
-    - Linux: `$XDG_DATA_HOME/chatterino`
-    - Windows: `$env:APPDATA\Chatterino2`
+1. Using the [wiki guide](https://wiki.chatterino.com/Settings/#where-is-my-chatterino-folder-located), navigate to your chatterino folder
 
 2. Download and extract the latest release:
 
