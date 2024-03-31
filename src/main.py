@@ -1,13 +1,14 @@
 import json
-from dataclasses import fields
 from io import BytesIO
 from pathlib import Path
 from tarfile import TarFile, TarInfo
 from tarfile import open as taropen
-from typing import Literal, TypeAlias, cast
+from typing import Literal, TypeAlias
+from unicodedata import normalize
 from urllib.request import urlretrieve
 
-from catppuccin import Colour, Flavour  # type: ignore
+from catppuccin.models import Color
+from catppuccin.palette import PALETTE, Flavor
 from jsonschema import validate
 
 icon_theme_t: TypeAlias = Literal["dark", "light"]
@@ -20,15 +21,12 @@ THEME_SCHEMA_URL: str = "https://raw.githubusercontent.com/Chatterino/chatterino
 def main() -> None:
     theme_schema: str = retrieve_via_http(THEME_SCHEMA_URL)
 
-    total_neutral: int = -12
-    for flavour_name, flavour_factory in Flavour.__dict__.items():
-        if not isinstance(flavour_factory, staticmethod):
-            continue
+    for flavor in PALETTE:
+        for color in flavor.colors:
+            if not color.accent:
+                continue
 
-        flavour: Flavour = cast(Flavour, flavour_factory())
-        for colour in fields(flavour)[:total_neutral]:
-            accent: Colour = getattr(flavour, colour.name)
-            target: str = f"{flavour_name}-{colour.name}"
+            target: str = normalize("NFKD", f"{flavor.name}-{color.name}").encode("ascii", "ignore").decode()
 
             dist_dir: Path = Path("dist")
             dist_dir.mkdir(parents=True, exist_ok=True)
@@ -37,13 +35,13 @@ def main() -> None:
             with taropen(archive_path, "w:gz") as archive:
                 # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L20
                 settings_path: TarInfo = TarInfo("Settings/settings.json")
-                settings: json_t = generate_settings(flavour, accent, target=target)
+                settings: json_t = generate_settings(flavor, color, target=target)
                 write_json_to_tar(archive=archive, path=settings_path, tree=settings)
 
-                icon_theme: icon_theme_t = "dark" if flavour_name == "latte" else "light"
+                icon_theme: icon_theme_t = "light" if flavor.dark else "dark"
                 # https://github.com/Chatterino/chatterino2/blob/38a7ce695485e080f6e98e17c9b2a01bcbf17744/src/singletons/Paths.hpp#L41
                 theme_path: TarInfo = TarInfo(f"Themes/{target}.json")
-                theme: json_t = generate_theme(flavour, accent, icon_theme=icon_theme)
+                theme: json_t = generate_theme(flavor, color, icon_theme=icon_theme)
                 validate(instance=theme, schema=json.loads(theme_schema))
                 write_json_to_tar(archive=archive, path=theme_path, tree=theme)
 
@@ -63,7 +61,7 @@ def write_json_to_tar(archive: TarFile, path: TarInfo, tree: json_t) -> None:
     archive.addfile(path, BytesIO(tree_data))
 
 
-def generate_settings(flavour: Flavour, accent: Colour, target: str) -> json_t:
+def generate_settings(flavor: Flavor, accent: Color, target: str) -> json_t:
     opacity_first_messagee: int = 0x3C
     opacity_hype_chat: int = 0x3C
     opacity_mention: int = 0x7F
@@ -75,7 +73,7 @@ def generate_settings(flavour: Flavour, accent: Colour, target: str) -> json_t:
     return {
         "appearance": {
             "messages": {
-                "lastMessageColor": f"#{accent.hex}",
+                "lastMessageColor": accent.hex,
                 "showLastMessageIndicator": True,
             },
             "theme": {
@@ -84,21 +82,21 @@ def generate_settings(flavour: Flavour, accent: Colour, target: str) -> json_t:
         },
         "highlighting": {
             "elevatedMessageHighlight": {
-                "color": f"#{opacity_hype_chat:02x}{flavour.yellow.hex}",
+                "color": f"#{opacity_hype_chat:02x}{flavor.colors.yellow.hex.lstrip('#')}",
             },
-            "firstMessageHighlightColor": f"#{opacity_first_messagee:02x}{flavour.green.hex}",
-            "redeemedHighlightColor": f"#{opacity_redeem_highlight:02x}{flavour.teal.hex}",
-            "selfHighlightColor": f"#{opacity_mention:02x}{flavour.red.hex}",
+            "firstMessageHighlightColor": f"#{opacity_first_messagee:02x}{flavor.colors.green.hex.lstrip('#')}",
+            "redeemedHighlightColor": f"#{opacity_redeem_highlight:02x}{flavor.colors.teal.hex.lstrip('#')}",
+            "selfHighlightColor": f"#{opacity_mention:02x}{flavor.colors.red.hex.lstrip('#')}",
             "selfMessageHighlight": {
-                "color": f"#{opacity_self:02x}{accent.hex}",
+                "color": f"#{opacity_self:02x}{accent.hex.lstrip('#')}",
             },
-            "subHighlightColor": f"#{opacity_subscription:02x}{flavour.mauve.hex}",
-            "threadHighlightColor": f"#{opacity_tread_reply:02x}{flavour.red.hex}",
+            "subHighlightColor": f"#{opacity_subscription:02x}{flavor.colors.mauve.hex.lstrip('#')}",
+            "threadHighlightColor": f"#{opacity_tread_reply:02x}{flavor.colors.red.hex.lstrip('#')}",
         },
     }
 
 
-def generate_theme(flavour: Flavour, accent: Colour, icon_theme: icon_theme_t) -> json_t:
+def generate_theme(flavor: Flavor, accent: Color, icon_theme: icon_theme_t) -> json_t:
     opacity_drop_preview: int = 0x30
     opacity_drop_target: int = 0x00
     opacity_highlight_end: int = 0x00
@@ -108,97 +106,97 @@ def generate_theme(flavour: Flavour, accent: Colour, icon_theme: icon_theme_t) -
     opacity_selection: int = 0x40
 
     tabs_generic: json_t = {
-        "hover": f"#{flavour.mantle.hex}",
-        "regular": f"#{flavour.mantle.hex}",
-        "unfocused": f"#{flavour.mantle.hex}",
+        "hover": flavor.colors.mantle.hex,
+        "regular": flavor.colors.mantle.hex,
+        "unfocused": flavor.colors.mantle.hex,
     }
 
     return {
         "$schema": THEME_SCHEMA_URL,
         "colors": {
-            "accent": f"#{accent.hex}",
+            "accent": accent.hex,
             "messages": {
                 "backgrounds": {
-                    "alternate": f"#{flavour.base.hex}",
-                    "regular": f"#{flavour.mantle.hex}",
+                    "alternate": flavor.colors.base.hex,
+                    "regular": flavor.colors.mantle.hex,
                 },
-                "disabled": f"#{opacity_logs:02x}{flavour.crust.hex}",
-                "highlightAnimationEnd": f"#{opacity_highlight_end:02x}{flavour.overlay2.hex}",
-                "highlightAnimationStart": f"#{opacity_highlight_start:02x}{flavour.overlay2.hex}",
-                "selection": f"#{opacity_selection:02x}{flavour.text.hex}",
+                "disabled": f"#{opacity_logs:02x}{flavor.colors.crust.hex.lstrip('#')}",
+                "highlightAnimationEnd": f"#{opacity_highlight_end:02x}{flavor.colors.overlay2.hex.lstrip('#')}",
+                "highlightAnimationStart": f"#{opacity_highlight_start:02x}{flavor.colors.overlay2.hex.lstrip('#')}",
+                "selection": f"#{opacity_selection:02x}{flavor.colors.text.hex.lstrip('#')}",
                 "textColors": {
-                    "caret": f"#{flavour.text.hex}",
-                    "chatPlaceholder": f"#{flavour.subtext1.hex}",
-                    "link": f"#{accent.hex}",
-                    "regular": f"#{flavour.text.hex}",
-                    "system": f"#{flavour.subtext0.hex}",
+                    "caret": flavor.colors.text.hex,
+                    "chatPlaceholder": flavor.colors.subtext1.hex,
+                    "link": accent.hex,
+                    "regular": flavor.colors.text.hex,
+                    "system": flavor.colors.subtext0.hex,
                 },
             },
             "scrollbars": {
-                "background": f"#{opacity_scrollbar:02x}{flavour.crust.hex}",
-                "thumb": f"#{flavour.overlay1.hex}",
-                "thumbSelected": f"#{flavour.overlay0.hex}",
+                "background": f"#{opacity_scrollbar:02x}{flavor.colors.crust.hex.lstrip('#')}",
+                "thumb": flavor.colors.overlay1.hex,
+                "thumbSelected": flavor.colors.overlay0.hex,
             },
             "splits": {
-                "background": f"#{flavour.crust.hex}",
-                "dropPreview": f"#{opacity_drop_preview:02x}{accent.hex}",
-                "dropPreviewBorder": f"#{accent.hex}",
-                "dropTargetRect": f"#{opacity_drop_target:02x}{accent.hex}",
-                "dropTargetRectBorder": f"#{opacity_drop_target:02x}{accent.hex}",
+                "background": flavor.colors.crust.hex,
+                "dropPreview": f"#{opacity_drop_preview:02x}{accent.hex.lstrip('#')}",
+                "dropPreviewBorder": accent.hex,
+                "dropTargetRect": f"#{opacity_drop_target:02x}{accent.hex.lstrip('#')}",
+                "dropTargetRectBorder": f"#{opacity_drop_target:02x}{accent.hex.lstrip('#')}",
                 "header": {
-                    "background": f"#{flavour.mantle.hex}",
-                    "border": f"#{flavour.crust.hex}",
-                    "focusedBackground": f"#{flavour.mantle.hex}",
-                    "focusedBorder": f"#{flavour.crust.hex}",
-                    "focusedText": f"#{flavour.text.hex}",
-                    "text": f"#{flavour.text.hex}",
+                    "background": flavor.colors.mantle.hex,
+                    "border": flavor.colors.crust.hex,
+                    "focusedBackground": flavor.colors.mantle.hex,
+                    "focusedBorder": flavor.colors.crust.hex,
+                    "focusedText": flavor.colors.text.hex,
+                    "text": flavor.colors.text.hex,
                 },
                 "input": {
-                    "background": f"#{flavour.mantle.hex}",
-                    "text": f"#{accent.hex}",
+                    "background": flavor.colors.mantle.hex,
+                    "text": accent.hex,
                 },
-                "messageSeperator": f"#{flavour.surface0.hex}",
-                "resizeHandle": f"#{accent.hex}",
-                "resizeHandleBackground": f"#{accent.hex}",
+                "messageSeperator": flavor.colors.surface0.hex,
+                "resizeHandle": accent.hex,
+                "resizeHandleBackground": accent.hex,
             },
             "tabs": {
-                "dividerLine": f"#{accent.hex}",
+                "dividerLine": accent.hex,
                 "highlighted": {
                     "backgrounds": tabs_generic,
                     "line": {
-                        "hover": f"#{flavour.red.hex}",
-                        "regular": f"#{flavour.red.hex}",
-                        "unfocused": f"#{flavour.red.hex}",
+                        "hover": flavor.colors.red.hex,
+                        "regular": flavor.colors.red.hex,
+                        "unfocused": flavor.colors.red.hex,
                     },
-                    "text": f"#{flavour.subtext1.hex}",
+                    "text": flavor.colors.subtext1.hex,
                 },
                 "newMessage": {
                     "backgrounds": tabs_generic,
                     "line": tabs_generic,
-                    "text": f"#{flavour.text.hex}",
+                    "text": flavor.colors.text.hex,
                 },
                 "regular": {
                     "backgrounds": tabs_generic,
                     "line": tabs_generic,
-                    "text": f"#{flavour.subtext0.hex}",
+                    "text": flavor.colors.subtext0.hex,
                 },
                 "selected": {
                     "backgrounds": {
-                        "hover": f"#{flavour.surface0.hex}",
-                        "regular": f"#{flavour.surface0.hex}",
-                        "unfocused": f"#{flavour.surface0.hex}",
+                        "hover": flavor.colors.surface0.hex,
+                        "regular": flavor.colors.surface0.hex,
+                        "unfocused": flavor.colors.surface0.hex,
                     },
                     "line": {
-                        "hover": f"#{accent.hex}",
-                        "regular": f"#{accent.hex}",
-                        "unfocused": f"#{accent.hex}",
+                        "hover": accent.hex,
+                        "regular": accent.hex,
+                        "unfocused": accent.hex,
                     },
-                    "text": f"#{flavour.text.hex}",
+                    "text": flavor.colors.text.hex,
                 },
             },
             "window": {
-                "background": f"#{flavour.crust.hex}",
-                "text": f"#{flavour.subtext1.hex}",
+                "background": flavor.colors.crust.hex,
+                "text": flavor.colors.subtext1.hex,
             },
         },
         "metadata": {
