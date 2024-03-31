@@ -1,3 +1,5 @@
+# @help: https://spec.editorconfig.org
+
 root = true
 
 [*]
