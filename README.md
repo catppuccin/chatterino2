@@ -53,14 +53,7 @@
     - Linux: `$XDG_DATA_HOME/chatterino`
     - Windows: `$env:APPDATA\Chatterino2`
 
-2. Download and extract the latest release:
-
-    > [!WARNING]
-    > Be cautious as this action could potentially replace your existing settings.
-
-    ```shell
-    curl --location "https://github.com/fruzitent/chatterino2/releases/latest/download/theme-accent.tar.gz" | tar --extract --file - --gzip
-    ```
+2. Download and extract your chosen theme from the [latest release](https://github.com/catppuccin/chatterino2/releases) into your configuration directory.
 
 ## 💝 Thanks to
 
