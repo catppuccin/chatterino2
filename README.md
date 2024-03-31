@@ -1,3 +1,7 @@
+<!-- markdownlint-disable MD033 no-inline-html -->
+<!-- markdownlint-disable MD041 first-line-heading -->
+<!-- markdownlint-disable MD045 no-alt-text -->
+
 <h3 align="center">
   <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/logos/exports/1544x1544_circle.png" width="100" alt="Logo"/>
   <br/>
