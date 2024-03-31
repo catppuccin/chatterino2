@@ -1,7 +1,19 @@
-.idea
-.vscode
-
-.mypy_cache
-.venv
+# @help: https://git-scm.com/docs/gitignore
 
 dist
+
+# IDE
+
+.fleet
+.idea
+.vs
+.vscode
+
+# py
+
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+*.egg-info/
+*venv/
+build/
