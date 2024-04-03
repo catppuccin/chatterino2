@@ -4,7 +4,6 @@ from pathlib import Path
 from tarfile import TarFile, TarInfo
 from tarfile import open as taropen
 from typing import Literal, TypeAlias
-from unicodedata import normalize
 from urllib.request import urlretrieve
 
 from catppuccin.models import Color
@@ -26,7 +25,7 @@ def main() -> None:
             if not color.accent:
                 continue
 
-            target: str = normalize("NFKD", f"{flavor.name}-{color.name}").encode("ascii", "ignore").decode()
+            target: str = f"{flavor.identifier}-{color.identifier}"
 
             dist_dir: Path = Path("dist")
             dist_dir.mkdir(parents=True, exist_ok=True)
