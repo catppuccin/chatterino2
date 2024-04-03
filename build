@@ -34,7 +34,7 @@ foreach_theme() {
 init() {
     target="${1}"
     path="${2}"
-    mkdir --parent "${OUTDIR}/${target}/${path}" && touch "${_}/.gitkeep"
+    mkdir --parent "${OUTDIR}/${target}/${path}"
 }
 
 main() {
@@ -51,7 +51,7 @@ main() {
 pack() {
     target="${1}"
     path="${OUTDIR}/${target}"
-    tar --create --directory "${path}" --exclude ".gitkeep" --file "${path}.tar.gz" --gzip .
+    tar --create --directory "${path}" --file "${path}.tar.gz" --gzip .
 }
 
 main "${@}"
