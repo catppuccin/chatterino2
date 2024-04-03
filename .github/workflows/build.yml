@@ -19,8 +19,8 @@ jobs:
 
       - name: Generate themes
         run: |
-          echo "NOT IMPLEMENTED"
-          exit 1
+          chmod +x ./build
+          ./build
 
       - name: Release
         uses: softprops/action-gh-release@v2

@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# TODO: https://discord.com/channels/907385605422448742/1183853334726193152/1224630099370840145
+
+OUTDIR="./dist/"
+SRCDIR="./src/"
+
+build() {
+    template="${1}"
+    whiskers "${template}"
+}
+
+clean() {
+    rm --force --recursive "${OUTDIR}"
+}
+
+foreach_theme() {
+    callback="${1}"
+    shift
+
+    colors=("blue" "flamingo" "green" "lavender" "maroon" "mauve" "peach" "pink" "red" "rosewater" "sapphire" "sky" "teal" "yellow")
+    flavors=("frappe" "latte" "macchiato" "mocha")
+
+    for flavor in "${flavors[@]}"; do
+        for color in "${colors[@]}"; do
+            target="${flavor}-${color}"
+            "${callback}" "${target}" "${@}"
+        done
+    done
+}
+
+init() {
+    target="${1}"
+    path="${2}"
+    mkdir --parent "${OUTDIR}/${target}/${path}" && touch "${_}/.gitkeep"
+}
+
+main() {
+    clean
+    templates=$(find "${SRCDIR}" -type "f" -name "*.tera")
+    for template in ${templates}; do
+        path=$(basename "$(dirname "${template}")" "${SRCDIR}")
+        foreach_theme init "${path}"
+        build "${template}"
+        foreach_theme pack
+    done
+}
+
+pack() {
+    target="${1}"
+    path="${OUTDIR}/${target}"
+    tar --create --directory "${path}" --exclude ".gitkeep" --file "${path}.tar.gz" --gzip .
+}
+
+main "${@}"
