@@ -8,12 +8,3 @@ dist
 .idea
 .vs
 .vscode
-
-# py
-
-__pycache__/
-.mypy_cache/
-.pytest_cache/
-*.egg-info/
-*venv/
-build/

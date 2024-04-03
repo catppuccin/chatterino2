@@ -17,18 +17,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Set up python
-        id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          cache: "pip"
-          python-version-file: "./pyproject.toml"
-
-      - name: Install dependencies
-        run: pip install -e .
-
       - name: Generate themes
-        run: python3 src/main.py
+        run: |
+          echo "NOT IMPLEMENTED"
+          exit 1
 
       - name: Release
         uses: softprops/action-gh-release@v2
