@@ -4,7 +4,7 @@ whiskers:
   matrix:
     - "accent"
     - "flavor"
-  version: "2.0.2"
+  version: "2.1.0"
 ---
 {
   "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/v2.4.6/docs/ChatterinoTheme.schema.json",
