@@ -13,106 +13,106 @@ whiskers:
     "accent": "#{{ flavor.colors[accent].hex }}",
     "messages": {
       "backgrounds": {
-        "alternate": "#{{ flavor.colors.base.hex   }}",
-        "regular":   "#{{ flavor.colors.mantle.hex }}"
+        "alternate": "#{{ flavor.colors.base.hex }}",
+        "regular": "#{{ flavor.colors.mantle.hex }}"
       },
-      "disabled":                "#{{ flavor.colors.crust    | mod(opacity=0.60) | get(key="hex") }}",
-      "highlightAnimationEnd":   "#{{ flavor.colors.overlay2 | mod(opacity=0.00) | get(key="hex") }}",
+      "disabled": "#{{ flavor.colors.crust | mod(opacity=0.60) | get(key="hex") }}",
+      "highlightAnimationEnd": "#{{ flavor.colors.overlay2 | mod(opacity=0.00) | get(key="hex") }}",
       "highlightAnimationStart": "#{{ flavor.colors.overlay2 | mod(opacity=0.43) | get(key="hex") }}",
-      "selection":               "#{{ flavor.colors.text     | mod(opacity=0.25) | get(key="hex") }}",
+      "selection": "#{{ flavor.colors.text | mod(opacity=0.25) | get(key="hex") }}",
       "textColors": {
-        "caret":           "#{{ flavor.colors.text.hex     }}",
+        "caret": "#{{ flavor.colors.text.hex }}",
         "chatPlaceholder": "#{{ flavor.colors.subtext1.hex }}",
-        "link":            "#{{ flavor.colors[accent].hex  }}",
-        "regular":         "#{{ flavor.colors.text.hex     }}",
-        "system":          "#{{ flavor.colors.subtext0.hex }}"
+        "link": "#{{ flavor.colors[accent].hex }}",
+        "regular": "#{{ flavor.colors.text.hex }}",
+        "system": "#{{ flavor.colors.subtext0.hex }}"
       }
     },
     "scrollbars": {
-      "background":    "#{{ flavor.colors.crust        | mod(opacity=0.00) | get(key="hex") }}",
-      "thumb":         "#{{ flavor.colors.overlay1.hex                                      }}",
-      "thumbSelected": "#{{ flavor.colors.overlay0.hex                                      }}"
+      "background": "#{{ flavor.colors.crust| mod(opacity=0.00) | get(key="hex") }}",
+      "thumb": "#{{ flavor.colors.overlay1.hex}}",
+      "thumbSelected": "#{{ flavor.colors.overlay0.hex}}"
     },
     "splits": {
-      "background":           "#{{ flavor.colors.crust.hex                                        }}",
-      "dropPreview":          "#{{ flavor.colors[accent]     | mod(opacity=0.19) | get(key="hex") }}",
-      "dropPreviewBorder":    "#{{ flavor.colors[accent].hex                                      }}",
-      "dropTargetRect":       "#{{ flavor.colors[accent]     | mod(opacity=0.00) | get(key="hex") }}",
-      "dropTargetRectBorder": "#{{ flavor.colors[accent]     | mod(opacity=0.00) | get(key="hex") }}",
+      "background": "#{{ flavor.colors.crust.hex}}",
+      "dropPreview": "#{{ flavor.colors[accent] | mod(opacity=0.19) | get(key="hex") }}",
+      "dropPreviewBorder": "#{{ flavor.colors[accent].hex}}",
+      "dropTargetRect": "#{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}",
+      "dropTargetRectBorder": "#{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}",
       "header": {
-        "background":        "#{{ flavor.colors.mantle.hex }}",
-        "border":            "#{{ flavor.colors.crust.hex  }}",
+        "background": "#{{ flavor.colors.mantle.hex }}",
+        "border": "#{{ flavor.colors.crust.hex}}",
         "focusedBackground": "#{{ flavor.colors.mantle.hex }}",
-        "focusedBorder":     "#{{ flavor.colors.crust.hex  }}",
-        "focusedText":       "#{{ flavor.colors.text.hex   }}",
-        "text":              "#{{ flavor.colors.text.hex   }}"
+        "focusedBorder": "#{{ flavor.colors.crust.hex}}",
+        "focusedText": "#{{ flavor.colors.text.hex }}",
+        "text": "#{{ flavor.colors.text.hex }}"
       },
       "input": {
-        "background": "#{{ flavor.colors.mantle.hex  }}",
-        "text":       "#{{ flavor.colors[accent].hex }}"
+        "background": "#{{ flavor.colors.mantle.hex}}",
+        "text": "#{{ flavor.colors[accent].hex }}"
       },
-      "messageSeperator":       "#{{ flavor.colors.surface0.hex }}",
-      "resizeHandle":           "#{{ flavor.colors[accent].hex  }}",
-      "resizeHandleBackground": "#{{ flavor.colors[accent].hex  }}"
+      "messageSeperator": "#{{ flavor.colors.surface0.hex }}",
+      "resizeHandle": "#{{ flavor.colors[accent].hex}}",
+      "resizeHandleBackground": "#{{ flavor.colors[accent].hex}}"
     },
     "tabs": {
       "dividerLine": "#{{ flavor.colors[accent].hex }}",
       "highlighted": {
         "backgrounds": {
-          "hover":     "#{{ flavor.colors.mantle.hex }}",
-          "regular":   "#{{ flavor.colors.mantle.hex }}",
+          "hover": "#{{ flavor.colors.mantle.hex }}",
+          "regular": "#{{ flavor.colors.mantle.hex }}",
           "unfocused": "#{{ flavor.colors.mantle.hex }}"
         },
         "line": {
-          "hover":     "#{{ flavor.colors.red.hex }}",
-          "regular":   "#{{ flavor.colors.red.hex }}",
+          "hover": "#{{ flavor.colors.red.hex }}",
+          "regular": "#{{ flavor.colors.red.hex }}",
           "unfocused": "#{{ flavor.colors.red.hex }}"
         },
         "text": "#{{ flavor.colors.subtext1.hex }}"
       },
       "newMessage": {
         "backgrounds": {
-          "hover":     "#{{ flavor.colors.mantle.hex }}",
-          "regular":   "#{{ flavor.colors.mantle.hex }}",
+          "hover": "#{{ flavor.colors.mantle.hex }}",
+          "regular": "#{{ flavor.colors.mantle.hex }}",
           "unfocused": "#{{ flavor.colors.mantle.hex }}"
         },
         "line": {
-          "hover":     "#{{ flavor.colors.mantle.hex }}",
-          "regular":   "#{{ flavor.colors.mantle.hex }}",
+          "hover": "#{{ flavor.colors.mantle.hex }}",
+          "regular": "#{{ flavor.colors.mantle.hex }}",
           "unfocused": "#{{ flavor.colors.mantle.hex }}"
         },
         "text": "#{{ flavor.colors.text.hex }}"
       },
       "regular": {
         "backgrounds": {
-          "hover":     "#{{ flavor.colors.mantle.hex }}",
-          "regular":   "#{{ flavor.colors.mantle.hex }}",
+          "hover": "#{{ flavor.colors.mantle.hex }}",
+          "regular": "#{{ flavor.colors.mantle.hex }}",
           "unfocused": "#{{ flavor.colors.mantle.hex }}"
         },
         "line": {
-          "hover":     "#{{ flavor.colors.mantle.hex }}",
-          "regular":   "#{{ flavor.colors.mantle.hex }}",
+          "hover": "#{{ flavor.colors.mantle.hex }}",
+          "regular": "#{{ flavor.colors.mantle.hex }}",
           "unfocused": "#{{ flavor.colors.mantle.hex }}"
         },
         "text": "#{{ flavor.colors.subtext0.hex }}"
       },
       "selected": {
         "backgrounds": {
-          "hover":     "#{{ flavor.colors.surface0.hex }}",
-          "regular":   "#{{ flavor.colors.surface0.hex }}",
+          "hover": "#{{ flavor.colors.surface0.hex }}",
+          "regular": "#{{ flavor.colors.surface0.hex }}",
           "unfocused": "#{{ flavor.colors.surface0.hex }}"
         },
         "line": {
-          "hover":     "#{{ flavor.colors[accent].hex }}",
-          "regular":   "#{{ flavor.colors[accent].hex }}",
+          "hover": "#{{ flavor.colors[accent].hex }}",
+          "regular": "#{{ flavor.colors[accent].hex }}",
           "unfocused": "#{{ flavor.colors[accent].hex }}"
         },
         "text": "#{{ flavor.colors.text.hex }}"
       }
     },
     "window": {
-      "background": "#{{ flavor.colors.crust.hex    }}",
-      "text":       "#{{ flavor.colors.subtext1.hex }}"
+      "background": "#{{ flavor.colors.crust.hex}}",
+      "text": "#{{ flavor.colors.subtext1.hex }}"
     }
   },
   "metadata": {

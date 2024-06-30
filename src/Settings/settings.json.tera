@@ -22,12 +22,12 @@ whiskers:
       "color": "#{{ flavor.colors.yellow | mod(opacity=0.00) | get(key="hex") }}"
     },
     "firstMessageHighlightColor": "#{{ flavor.colors.green | mod(opacity=0.00) | get(key="hex") }}",
-    "redeemedHighlightColor":     "#{{ flavor.colors.teal  | mod(opacity=0.00) | get(key="hex") }}",
-    "selfHighlightColor":         "#{{ flavor.colors.red   | mod(opacity=0.00) | get(key="hex") }}",
+    "redeemedHighlightColor": "#{{ flavor.colors.teal| mod(opacity=0.00) | get(key="hex") }}",
+    "selfHighlightColor": "#{{ flavor.colors.red | mod(opacity=0.00) | get(key="hex") }}",
     "selfMessageHighlight": {
       "color": "#{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}"
     },
-    "subHighlightColor":    "#{{ flavor.colors.mauve | mod(opacity=0.00) | get(key="hex") }}",
-    "threadHighlightColor": "#{{ flavor.colors.red   | mod(opacity=0.00) | get(key="hex") }}"
+    "subHighlightColor": "#{{ flavor.colors.mauve| mod(opacity=0.00) | get(key="hex") }}",
+    "threadHighlightColor": "#{{ flavor.colors.red | mod(opacity=0.00) | get(key="hex") }}"
   }
 }
