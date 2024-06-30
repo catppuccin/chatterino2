@@ -1,7 +1,7 @@
 @echo on
 setlocal EnableDelayedExpansion
 
-forfiles /c "cmd /c if @isDir == FALSE pushd %~dp0 && whiskers @path" /m "*.tera" /p ".\src" /s
+forfiles /c "cmd /c if @isDir == FALSE pushd %~dp0 && whiskers @path" /m "*.tera" /p ".\src" /s & exit
 
 for /f %%a in ('forfiles /c "cmd /c if @isDir == TRUE echo @path" /p ".\dist"') do (
   set "_FILES="
