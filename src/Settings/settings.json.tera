@@ -1,6 +1,7 @@
 ---
 whiskers:
   filename: "./dist/{{ flavor.identifier }}-{{ accent }}/Settings/settings.json"
+  hex_format: "{{a}}{{r}}{{g}}{{b}}"
   matrix:
     - "accent"
     - "flavor"
