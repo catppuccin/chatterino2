@@ -1,6 +1,6 @@
 ---
 whiskers:
-  filename: "./dist/{{ flavor.identifier }}-{{ accent }}/Theme/{{ flavor.identifier }}-{{ accent }}.json"
+  filename: "./dist/{{ flavor.identifier }}-{{ accent }}/Themes/{{ flavor.identifier }}-{{ accent }}.json"
   hex_format: "{{a}}{{r}}{{g}}{{b}}"
   matrix:
     - "accent"
