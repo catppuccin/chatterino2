@@ -7,6 +7,7 @@ whiskers:
     - "flavor"
   version: "2.4.0"
 ---
+{# @help: https://github.com/Chatterino/chatterino2/blob/v2.4.6/src/singletons/Theme.hpp #}
 {
   "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/v2.4.6/docs/ChatterinoTheme.schema.json",
   "colors": {
