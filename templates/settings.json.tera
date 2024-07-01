@@ -7,17 +7,27 @@ whiskers:
     - "flavor"
   version: "2.4.0"
 ---
+{# @help: https://github.com/Chatterino/chatterino2/blob/v2.5.0/src/singletons/Settings.hpp #}
 {
   "appearance": {
     "messages": {
-      "lastMessageColor": "{{ flavor.colors[accent].hex }}",
-      "showLastMessageIndicator": true
+      "lastMessageColor": "{{ flavor.colors[accent].hex }}"
     },
     "theme": {
-      "name": "{{ flavor.identifier }}-{{ accent }}.json"
+{%- if flavor.dark %}
+      "darkSystem": "{{ flavor.identifier }}-{{ accent }}.json",
+      "lightSystem": "Light",
+{%- else %}
+      "darkSystem": "Dark",
+      "lightSystem": "{{ flavor.identifier }}-{{ accent }}.json",
+{%- endif %}
+      "name": "System"
     }
   },
   "highlighting": {
+    "automod": {
+      "color": "{{ surface2 | mod(opacity=0.15) | get(key="hex") }}"
+    },
     "elevatedMessageHighlight": {
       "color": "{{ yellow | mod(opacity=0.25) | get(key="hex") }}"
     },
@@ -25,9 +35,15 @@ whiskers:
     "redeemedHighlightColor": "{{ teal| mod(opacity=0.25) | get(key="hex") }}",
     "selfHighlightColor": "{{ red | mod(opacity=0.50) | get(key="hex") }}",
     "selfMessageHighlight": {
-      "color": "{{ flavor.colors[accent] | mod(opacity=1.00) | get(key="hex") }}"
+      "color": "{{ flavor.colors[accent] | mod(opacity=0.20) | get(key="hex") }}"
     },
     "subHighlightColor": "{{ mauve| mod(opacity=0.40) | get(key="hex") }}",
-    "threadHighlightColor": "{{ red | mod(opacity=0.25) | get(key="hex") }}"
+    "threadHighlightColor": "{{ red | mod(opacity=0.25) | get(key="hex") }}",
+    "users": [
+      {
+        "color": "{{ flavor.colors[accent] | mod(opacity=0.20) | get(key="hex") }}",
+        "pattern": "testaccount_420"
+      }
+    ]
   }
 }

@@ -7,8 +7,9 @@ whiskers:
     - "flavor"
   version: "2.4.0"
 ---
+{# @help: https://github.com/Chatterino/chatterino2/blob/v2.5.0/src/singletons/Theme.hpp #}
 {
-  "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/v2.4.6/docs/ChatterinoTheme.schema.json",
+  "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/v2.5.0/docs/ChatterinoTheme.schema.json",
   "colors": {
     "accent": "{{ flavor.colors[accent].hex }}",
     "messages": {
@@ -70,6 +71,7 @@ whiskers:
         },
         "text": "{{ subtext1.hex }}"
       },
+      "liveIndicator": "{{ red.hex }}",
       "newMessage": {
         "backgrounds": {
           "hover": "{{ mantle.hex }}",
@@ -96,6 +98,7 @@ whiskers:
         },
         "text": "{{ subtext0.hex }}"
       },
+      "rerunIndicator": "{{ yellow.hex }}",
       "selected": {
         "backgrounds": {
           "hover": "{{ surface0.hex }}",
