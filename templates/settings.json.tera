@@ -41,7 +41,7 @@ whiskers:
     "threadHighlightColor": "{{ red | mod(opacity=0.25) | get(key="hex") }}",
     "users": [
       {
-        "color": "{{ sky | mod(opacity=0.20) | get(key="hex") }}",
+        "color": "{{ flavor.colors[accent] | mod(opacity=0.20) | get(key="hex") }}",
         "pattern": "testaccount_420"
       }
     ]
