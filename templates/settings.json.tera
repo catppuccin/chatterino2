@@ -11,7 +11,7 @@ whiskers:
   "appearance": {
     "messages": {
       "lastMessageColor": "{{ flavor.colors[accent].hex }}",
-      "showLastMessageIndicator": true,
+      "showLastMessageIndicator": true
     },
     "theme": {
       "name": "{{ flavor.identifier }}-{{ accent }}.json"
