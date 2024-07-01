@@ -17,18 +17,16 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Set up python
-        id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          cache: "pip"
-          python-version-file: "./pyproject.toml"
-
-      - name: Install dependencies
-        run: pip install -e .
+      - name: Install Whiskers
+        run: |
+          wget -O "/usr/local/bin/whiskers" "https://github.com/catppuccin/whiskers/releases/download/v2.4.0/whiskers-x86_64-unknown-linux-gnu"
+          chmod +x /usr/local/bin/whiskers
 
       - name: Generate themes
-        run: python3 src/main.py
+        run: |
+          chmod +x ./build
+          ./build
+          ls -lah ./dist/
 
       - name: Release
         uses: softprops/action-gh-release@v2

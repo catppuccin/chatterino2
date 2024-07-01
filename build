@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -ex
+
+find "./src/" -name "*.tera" -type f -exec sh -c 'whiskers ${1}' _ {} \;
+
+for path in ./dist/*/; do
+  files=$(find "${path}" -type f -printf "%P\n")
+  theme=$(realpath --relative-to "./dist/" "${path}")
+  # shellcheck disable=SC2086 # Double quote to prevent globbing and word splitting
+  tar --create --directory "${path}" --file "./dist/${theme}.tar.gz" --gzip ${files}
+done

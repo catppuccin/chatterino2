@@ -1,0 +1,33 @@
+---
+whiskers:
+  filename: "./dist/{{ flavor.identifier }}-{{ accent }}/Settings/settings.json"
+  hex_format: "{{a}}{{r}}{{g}}{{b}}"
+  matrix:
+    - "accent"
+    - "flavor"
+  version: "2.4.0"
+---
+{
+  "appearance": {
+    "messages": {
+      "lastMessageColor": "{{ flavor.colors[accent].hex }}",
+      "showLastMessageIndicator": true,
+    },
+    "theme": {
+      "name": "{{ flavor.identifier }}-{{ accent }}.json"
+    }
+  },
+  "highlighting": {
+    "elevatedMessageHighlight": {
+      "color": "#{{ flavor.colors.yellow | mod(opacity=0.25) | get(key="hex") }}"
+    },
+    "firstMessageHighlightColor": "#{{ flavor.colors.green | mod(opacity=0.25) | get(key="hex") }}",
+    "redeemedHighlightColor": "#{{ flavor.colors.teal| mod(opacity=0.25) | get(key="hex") }}",
+    "selfHighlightColor": "#{{ flavor.colors.red | mod(opacity=0.50) | get(key="hex") }}",
+    "selfMessageHighlight": {
+      "color": "#{{ flavor.colors[accent] | mod(opacity=1.00) | get(key="hex") }}"
+    },
+    "subHighlightColor": "#{{ flavor.colors.mauve| mod(opacity=0.40) | get(key="hex") }}",
+    "threadHighlightColor": "#{{ flavor.colors.red | mod(opacity=0.25) | get(key="hex") }}"
+  }
+}
