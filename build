@@ -2,7 +2,8 @@
 
 set -ex
 
-find "./src/" -name "*.tera" -type f -exec sh -c 'whiskers ${1}' _ {} \;
+whiskers ./templates/settings.json.tera
+whiskers ./templates/themes.json.tera
 
 for path in ./dist/*/; do
   files=$(find "${path}" -type f -printf "%P\n")
