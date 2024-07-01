@@ -7,14 +7,21 @@ whiskers:
     - "flavor"
   version: "2.4.0"
 ---
-{# @help: https://github.com/Chatterino/chatterino2/blob/v2.4.6/src/singletons/Settings.hpp #}
+{# @help: https://github.com/Chatterino/chatterino2/blob/v2.5.0/src/singletons/Settings.hpp #}
 {
   "appearance": {
     "messages": {
       "lastMessageColor": "{{ flavor.colors[accent].hex }}"
     },
     "theme": {
-      "name": "{{ flavor.identifier }}-{{ accent }}.json"
+{%- if flavor.dark %}
+      "darkSystem": "{{ flavor.identifier }}-{{ accent }}.json",
+      "lightSystem": "Light",
+{%- else %}
+      "darkSystem": "Dark",
+      "lightSystem": "{{ flavor.identifier }}-{{ accent }}.json",
+{%- endif %}
+      "name": "System"
     }
   },
   "highlighting": {
