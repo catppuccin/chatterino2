@@ -18,7 +18,7 @@ whiskers:
       },
       "disabled": "#{{ flavor.colors.crust | mod(opacity=0.60) | get(key="hex") }}",
       "highlightAnimationEnd": "#{{ flavor.colors.overlay2 | mod(opacity=0.00) | get(key="hex") }}",
-      "highlightAnimationStart": "#{{ flavor.colors.overlay2 | mod(opacity=0.43) | get(key="hex") }}",
+      "highlightAnimationStart": "#{{ flavor.colors.overlay2 | mod(opacity=0.45) | get(key="hex") }}",
       "selection": "#{{ flavor.colors.text | mod(opacity=0.25) | get(key="hex") }}",
       "textColors": {
         "caret": "#{{ flavor.colors.text.hex }}",
@@ -35,7 +35,7 @@ whiskers:
     },
     "splits": {
       "background": "#{{ flavor.colors.crust.hex}}",
-      "dropPreview": "#{{ flavor.colors[accent] | mod(opacity=0.19) | get(key="hex") }}",
+      "dropPreview": "#{{ flavor.colors[accent] | mod(opacity=0.20) | get(key="hex") }}",
       "dropPreviewBorder": "#{{ flavor.colors[accent].hex}}",
       "dropTargetRect": "#{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}",
       "dropTargetRectBorder": "#{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}",
