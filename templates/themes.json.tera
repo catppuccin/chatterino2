@@ -1,7 +1,7 @@
 ---
 whiskers:
   filename: "./dist/{{ flavor.identifier }}-{{ accent }}/Themes/{{ flavor.identifier }}-{{ accent }}.json"
-  hex_format: "{{a}}{{r}}{{g}}{{b}}"
+  hex_format: "#{{a}}{{r}}{{g}}{{b}}"
   matrix:
     - "accent"
     - "flavor"
@@ -10,109 +10,109 @@ whiskers:
 {
   "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/v2.4.6/docs/ChatterinoTheme.schema.json",
   "colors": {
-    "accent": "#{{ flavor.colors[accent].hex }}",
+    "accent": "{{ flavor.colors[accent].hex }}",
     "messages": {
       "backgrounds": {
-        "alternate": "#{{ base.hex }}",
-        "regular": "#{{ mantle.hex }}"
+        "alternate": "{{ base.hex }}",
+        "regular": "{{ mantle.hex }}"
       },
-      "disabled": "#{{ crust | mod(opacity=0.60) | get(key="hex") }}",
-      "highlightAnimationEnd": "#{{ overlay2 | mod(opacity=0.00) | get(key="hex") }}",
-      "highlightAnimationStart": "#{{ overlay2 | mod(opacity=0.45) | get(key="hex") }}",
-      "selection": "#{{ text | mod(opacity=0.25) | get(key="hex") }}",
+      "disabled": "{{ crust | mod(opacity=0.60) | get(key="hex") }}",
+      "highlightAnimationEnd": "{{ overlay2 | mod(opacity=0.00) | get(key="hex") }}",
+      "highlightAnimationStart": "{{ overlay2 | mod(opacity=0.45) | get(key="hex") }}",
+      "selection": "{{ text | mod(opacity=0.25) | get(key="hex") }}",
       "textColors": {
-        "caret": "#{{ text.hex }}",
-        "chatPlaceholder": "#{{ subtext1.hex }}",
-        "link": "#{{ flavor.colors[accent].hex }}",
-        "regular": "#{{ text.hex }}",
-        "system": "#{{ subtext0.hex }}"
+        "caret": "{{ text.hex }}",
+        "chatPlaceholder": "{{ subtext1.hex }}",
+        "link": "{{ flavor.colors[accent].hex }}",
+        "regular": "{{ text.hex }}",
+        "system": "{{ subtext0.hex }}"
       }
     },
     "scrollbars": {
-      "background": "#{{ crust| mod(opacity=0.00) | get(key="hex") }}",
-      "thumb": "#{{ overlay1.hex}}",
-      "thumbSelected": "#{{ overlay0.hex}}"
+      "background": "{{ crust| mod(opacity=0.00) | get(key="hex") }}",
+      "thumb": "{{ overlay1.hex}}",
+      "thumbSelected": "{{ overlay0.hex}}"
     },
     "splits": {
-      "background": "#{{ crust.hex}}",
-      "dropPreview": "#{{ flavor.colors[accent] | mod(opacity=0.20) | get(key="hex") }}",
-      "dropPreviewBorder": "#{{ flavor.colors[accent].hex}}",
-      "dropTargetRect": "#{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}",
-      "dropTargetRectBorder": "#{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}",
+      "background": "{{ crust.hex}}",
+      "dropPreview": "{{ flavor.colors[accent] | mod(opacity=0.20) | get(key="hex") }}",
+      "dropPreviewBorder": "{{ flavor.colors[accent].hex}}",
+      "dropTargetRect": "{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}",
+      "dropTargetRectBorder": "{{ flavor.colors[accent] | mod(opacity=0.00) | get(key="hex") }}",
       "header": {
-        "background": "#{{ mantle.hex }}",
-        "border": "#{{ crust.hex}}",
-        "focusedBackground": "#{{ mantle.hex }}",
-        "focusedBorder": "#{{ crust.hex}}",
-        "focusedText": "#{{ text.hex }}",
-        "text": "#{{ text.hex }}"
+        "background": "{{ mantle.hex }}",
+        "border": "{{ crust.hex}}",
+        "focusedBackground": "{{ mantle.hex }}",
+        "focusedBorder": "{{ crust.hex}}",
+        "focusedText": "{{ text.hex }}",
+        "text": "{{ text.hex }}"
       },
       "input": {
-        "background": "#{{ mantle.hex}}",
-        "text": "#{{ flavor.colors[accent].hex }}"
+        "background": "{{ mantle.hex}}",
+        "text": "{{ flavor.colors[accent].hex }}"
       },
-      "messageSeperator": "#{{ surface0.hex }}",
-      "resizeHandle": "#{{ flavor.colors[accent].hex}}",
-      "resizeHandleBackground": "#{{ flavor.colors[accent].hex}}"
+      "messageSeperator": "{{ surface0.hex }}",
+      "resizeHandle": "{{ flavor.colors[accent].hex}}",
+      "resizeHandleBackground": "{{ flavor.colors[accent].hex}}"
     },
     "tabs": {
-      "dividerLine": "#{{ flavor.colors[accent].hex }}",
+      "dividerLine": "{{ flavor.colors[accent].hex }}",
       "highlighted": {
         "backgrounds": {
-          "hover": "#{{ mantle.hex }}",
-          "regular": "#{{ mantle.hex }}",
-          "unfocused": "#{{ mantle.hex }}"
+          "hover": "{{ mantle.hex }}",
+          "regular": "{{ mantle.hex }}",
+          "unfocused": "{{ mantle.hex }}"
         },
         "line": {
-          "hover": "#{{ red.hex }}",
-          "regular": "#{{ red.hex }}",
-          "unfocused": "#{{ red.hex }}"
+          "hover": "{{ red.hex }}",
+          "regular": "{{ red.hex }}",
+          "unfocused": "{{ red.hex }}"
         },
-        "text": "#{{ subtext1.hex }}"
+        "text": "{{ subtext1.hex }}"
       },
       "newMessage": {
         "backgrounds": {
-          "hover": "#{{ mantle.hex }}",
-          "regular": "#{{ mantle.hex }}",
-          "unfocused": "#{{ mantle.hex }}"
+          "hover": "{{ mantle.hex }}",
+          "regular": "{{ mantle.hex }}",
+          "unfocused": "{{ mantle.hex }}"
         },
         "line": {
-          "hover": "#{{ mantle.hex }}",
-          "regular": "#{{ mantle.hex }}",
-          "unfocused": "#{{ mantle.hex }}"
+          "hover": "{{ mantle.hex }}",
+          "regular": "{{ mantle.hex }}",
+          "unfocused": "{{ mantle.hex }}"
         },
-        "text": "#{{ text.hex }}"
+        "text": "{{ text.hex }}"
       },
       "regular": {
         "backgrounds": {
-          "hover": "#{{ mantle.hex }}",
-          "regular": "#{{ mantle.hex }}",
-          "unfocused": "#{{ mantle.hex }}"
+          "hover": "{{ mantle.hex }}",
+          "regular": "{{ mantle.hex }}",
+          "unfocused": "{{ mantle.hex }}"
         },
         "line": {
-          "hover": "#{{ mantle.hex }}",
-          "regular": "#{{ mantle.hex }}",
-          "unfocused": "#{{ mantle.hex }}"
+          "hover": "{{ mantle.hex }}",
+          "regular": "{{ mantle.hex }}",
+          "unfocused": "{{ mantle.hex }}"
         },
-        "text": "#{{ subtext0.hex }}"
+        "text": "{{ subtext0.hex }}"
       },
       "selected": {
         "backgrounds": {
-          "hover": "#{{ surface0.hex }}",
-          "regular": "#{{ surface0.hex }}",
-          "unfocused": "#{{ surface0.hex }}"
+          "hover": "{{ surface0.hex }}",
+          "regular": "{{ surface0.hex }}",
+          "unfocused": "{{ surface0.hex }}"
         },
         "line": {
-          "hover": "#{{ flavor.colors[accent].hex }}",
-          "regular": "#{{ flavor.colors[accent].hex }}",
-          "unfocused": "#{{ flavor.colors[accent].hex }}"
+          "hover": "{{ flavor.colors[accent].hex }}",
+          "regular": "{{ flavor.colors[accent].hex }}",
+          "unfocused": "{{ flavor.colors[accent].hex }}"
         },
-        "text": "#{{ text.hex }}"
+        "text": "{{ text.hex }}"
       }
     },
     "window": {
-      "background": "#{{ crust.hex}}",
-      "text": "#{{ subtext1.hex }}"
+      "background": "{{ crust.hex}}",
+      "text": "{{ subtext1.hex }}"
     }
   },
   "metadata": {
