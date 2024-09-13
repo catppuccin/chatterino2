@@ -5,7 +5,7 @@ whiskers:
   matrix:
     - "accent"
     - "flavor"
-  version: "2.4.0"
+  version: 2.5.0
 ---
 {# @help: https://github.com/Chatterino/chatterino2/blob/v2.5.0/src/singletons/Theme.hpp #}
 {
