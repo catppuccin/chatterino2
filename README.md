@@ -22,7 +22,7 @@
   </a>
 </p>
 
-![catwalk](assets/catwalk.webp)
+![catwalk](assets/preview.webp)
 
 ## Previews
 
