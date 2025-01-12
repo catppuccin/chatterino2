@@ -45,5 +45,8 @@ whiskers:
         "pattern": "testaccount_420"
       }
     ]
+  },
+  "misc": {
+    "currentVersion": "2.5.0"
   }
 }
