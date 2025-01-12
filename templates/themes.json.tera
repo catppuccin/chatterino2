@@ -29,6 +29,22 @@ whiskers:
         "system": "{{ subtext0.hex }}"
       }
     },
+    "overlayMessages": {
+      "background": "{{ surface0.hex }}",
+      "backgrounds": {
+        "alternate": "{{ base | mod(opacity=0.20) | get(key="hex") }}",
+        "regular": "transparent"
+      },
+      "disabled": "{{ crust | mod(opacity=0.60) | get(key="hex") }}",
+      "selection": "{{ text | mod(opacity=0.25) | get(key="hex") }}",
+      "textColors": {
+        "caret": "{{ text.hex }}",
+        "chatPlaceholder": "{{ subtext1.hex }}",
+        "link": "{{ flavor.colors[accent].hex }}",
+        "regular": "{{ text.hex }}",
+        "system": "{{ subtext0.hex }}"
+      }
+    },
     "scrollbars": {
       "background": "{{ crust| mod(opacity=0.00) | get(key="hex") }}",
       "thumb": "{{ overlay1.hex }}",

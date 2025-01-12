@@ -13,6 +13,9 @@ whiskers:
     "messages": {
       "lastMessageColor": "{{ flavor.colors[accent].hex }}"
     },
+    "overlay": {
+      "shadowColor": "{{ crust.hex }}"
+    },
     "theme": {
 {%- if flavor.dark %}
       "darkSystem": "{{ flavor.identifier }}-{{ accent }}.json",
