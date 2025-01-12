@@ -7,11 +7,14 @@ whiskers:
     - "flavor"
   version: 2.5.1
 ---
-{# @help: https://github.com/Chatterino/chatterino2/blob/v2.5.0/src/singletons/Settings.hpp #}
+{# @help: https://github.com/Chatterino/chatterino2/blob/v2.5.2/src/singletons/Settings.hpp #}
 {
   "appearance": {
     "messages": {
       "lastMessageColor": "{{ flavor.colors[accent].hex }}"
+    },
+    "overlay": {
+      "shadowColor": "{{ crust.hex }}"
     },
     "theme": {
 {%- if flavor.dark %}
@@ -45,5 +48,8 @@ whiskers:
         "pattern": "testaccount_420"
       }
     ]
+  },
+  "misc": {
+    "currentVersion": "2.5.2"
   }
 }
