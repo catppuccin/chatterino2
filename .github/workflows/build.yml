@@ -21,7 +21,7 @@ jobs:
 
       - name: Install Whiskers
         run: |
-          wget -O "/usr/local/bin/whiskers" "https://github.com/catppuccin/whiskers/releases/download/v2.5.0/whiskers-x86_64-unknown-linux-gnu"
+          wget -O "/usr/local/bin/whiskers" "https://github.com/catppuccin/whiskers/releases/download/v2.5.1/whiskers-x86_64-unknown-linux-gnu"
           chmod +x /usr/local/bin/whiskers
 
       - name: Generate themes
