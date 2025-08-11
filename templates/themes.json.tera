@@ -7,9 +7,9 @@ whiskers:
     - "flavor"
   version: 2.5.1
 ---
-{# @help: https://github.com/Chatterino/chatterino2/blob/v2.5.0/src/singletons/Theme.hpp #}
+{# @help: https://github.com/Chatterino/chatterino2/blob/v2.5.2/src/singletons/Theme.hpp #}
 {
-  "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/v2.5.0/docs/ChatterinoTheme.schema.json",
+  "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/v2.5.2/docs/ChatterinoTheme.schema.json",
   "colors": {
     "accent": "{{ flavor.colors[accent].hex }}",
     "messages": {
@@ -20,6 +20,22 @@ whiskers:
       "disabled": "{{ crust | mod(opacity=0.60) | get(key="hex") }}",
       "highlightAnimationEnd": "{{ overlay2 | mod(opacity=0.00) | get(key="hex") }}",
       "highlightAnimationStart": "{{ overlay2 | mod(opacity=0.45) | get(key="hex") }}",
+      "selection": "{{ text | mod(opacity=0.25) | get(key="hex") }}",
+      "textColors": {
+        "caret": "{{ text.hex }}",
+        "chatPlaceholder": "{{ subtext1.hex }}",
+        "link": "{{ flavor.colors[accent].hex }}",
+        "regular": "{{ text.hex }}",
+        "system": "{{ subtext0.hex }}"
+      }
+    },
+    "overlayMessages": {
+      "background": "{{ surface0.hex }}",
+      "backgrounds": {
+        "alternate": "{{ base | mod(opacity=0.20) | get(key="hex") }}",
+        "regular": "transparent"
+      },
+      "disabled": "{{ crust | mod(opacity=0.60) | get(key="hex") }}",
       "selection": "{{ text | mod(opacity=0.25) | get(key="hex") }}",
       "textColors": {
         "caret": "{{ text.hex }}",
